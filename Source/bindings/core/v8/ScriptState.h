@@ -34,7 +34,7 @@ public:
             : m_handleScope(scriptState->isolate())
             , m_context(scriptState->context())
         {
-            ASSERT(scriptState->contextIsValid());
+            //ASSERT(scriptState->contextIsValid());
             m_context->Enter();
         }
 
@@ -58,12 +58,12 @@ public:
 
     static ScriptState* from(v8::Handle<v8::Context> context)
     {
-        ASSERT(!context.IsEmpty());
+        //ASSERT(!context.IsEmpty());
         ScriptState* scriptState = static_cast<ScriptState*>(context->GetAlignedPointerFromEmbedderData(v8ContextPerContextDataIndex));
         // ScriptState::from() must not be called for a context that does not have
         // valid embedder data in the embedder field.
-        RELEASE_ASSERT_WITH_SECURITY_IMPLICATION(scriptState);
-        RELEASE_ASSERT_WITH_SECURITY_IMPLICATION(scriptState->context() == context || context == node::g_context);
+        //RELEASE_ASSERT_WITH_SECURITY_IMPLICATION(scriptState);
+        //RELEASE_ASSERT_WITH_SECURITY_IMPLICATION(scriptState->context() == context || context == node::g_context);
         return scriptState;
     }
 
