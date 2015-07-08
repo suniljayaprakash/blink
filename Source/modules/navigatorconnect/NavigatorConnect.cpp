@@ -52,6 +52,9 @@ private:
 
 ScriptPromise NavigatorConnect::connect(ScriptState* scriptState, const String& url)
 {
+    if(!scriptState->executionContext()) {
+        ScriptPromise();
+    }
     WebNavigatorConnectProvider* provider = Platform::current()->navigatorConnectProvider();
     if (!provider)
         return ScriptPromise::rejectWithDOMException(scriptState, DOMException::create(NotSupportedError));
