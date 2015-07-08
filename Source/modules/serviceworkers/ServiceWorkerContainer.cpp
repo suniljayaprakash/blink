@@ -110,6 +110,9 @@ void ServiceWorkerContainer::trace(Visitor* visitor)
 
 ScriptPromise ServiceWorkerContainer::registerServiceWorker(ScriptState* scriptState, const String& url, const RegistrationOptions& options)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     ASSERT(RuntimeEnabledFeatures::serviceWorkerEnabled());
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
@@ -174,6 +177,9 @@ private:
 
 ScriptPromise ServiceWorkerContainer::getRegistration(ScriptState* scriptState, const String& documentURL)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     ASSERT(RuntimeEnabledFeatures::serviceWorkerEnabled());
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
