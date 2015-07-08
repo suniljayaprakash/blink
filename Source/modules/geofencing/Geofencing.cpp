@@ -54,6 +54,9 @@ Geofencing::Geofencing(ServiceWorkerRegistration* registration)
 
 ScriptPromise Geofencing::registerRegion(ScriptState* scriptState, GeofencingRegion* region)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     WebGeofencingProvider* provider = Platform::current()->geofencingProvider();
     if (!provider)
         return ScriptPromise::rejectWithDOMException(scriptState, DOMException::create(NotSupportedError));
@@ -70,6 +73,9 @@ ScriptPromise Geofencing::registerRegion(ScriptState* scriptState, GeofencingReg
 
 ScriptPromise Geofencing::unregisterRegion(ScriptState* scriptState, const String& regionId)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     WebGeofencingProvider* provider = Platform::current()->geofencingProvider();
     if (!provider)
         return ScriptPromise::rejectWithDOMException(scriptState, DOMException::create(NotSupportedError));
@@ -86,6 +92,9 @@ ScriptPromise Geofencing::unregisterRegion(ScriptState* scriptState, const Strin
 
 ScriptPromise Geofencing::getRegisteredRegions(ScriptState* scriptState) const
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     WebGeofencingProvider* provider = Platform::current()->geofencingProvider();
     if (!provider)
         return ScriptPromise::rejectWithDOMException(scriptState, DOMException::create(NotSupportedError));
