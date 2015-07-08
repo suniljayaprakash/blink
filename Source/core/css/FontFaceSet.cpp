@@ -270,7 +270,7 @@ void FontFaceSet::removeFromLoadingFonts(PassRefPtrWillBeRawPtr<FontFace> fontFa
 
 ScriptPromise FontFaceSet::ready(ScriptState* scriptState)
 {
-    if (!inActiveDocumentContext())
+    if (!inActiveDocumentContext() || !scriptState->executionContext())
         return ScriptPromise();
     OwnPtrWillBeRawPtr<FontsReadyPromiseResolver> resolver = FontsReadyPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
@@ -438,9 +438,8 @@ void FontFaceSet::fireDoneEventIfPossible()
 
 ScriptPromise FontFaceSet::load(ScriptState* scriptState, const String& fontString, const String& text)
 {
-    if (!inActiveDocumentContext())
+    if (!inActiveDocumentContext() || !scriptState->executionContext())
         return ScriptPromise();
-
     Font font;
     if (!resolveFontStyle(fontString, font)) {
         RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
