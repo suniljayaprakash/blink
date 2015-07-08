@@ -295,6 +295,9 @@ ScriptPromise Cache::matchImpl(ScriptState* scriptState, const Request* request,
     WebServiceWorkerRequest webRequest;
     request->populateWebServiceWorkerRequest(webRequest);
 
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     m_webCache->dispatchMatch(new CacheMatchCallbacks(resolver), webRequest, toWebQueryParams(options));
@@ -305,7 +308,9 @@ ScriptPromise Cache::matchAllImpl(ScriptState* scriptState, const Request* reque
 {
     WebServiceWorkerRequest webRequest;
     request->populateWebServiceWorkerRequest(webRequest);
-
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     m_webCache->dispatchMatchAll(new CacheWithResponsesCallbacks(resolver), webRequest, toWebQueryParams(options));
@@ -346,6 +351,9 @@ ScriptPromise Cache::deleteImpl(ScriptState* scriptState, const Request* request
     request->populateWebServiceWorkerRequest(batchOperations[0].request);
     batchOperations[0].matchParams = toWebQueryParams(options);
 
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     m_webCache->dispatchBatch(new CacheDeleteCallback(resolver), batchOperations);
@@ -370,7 +378,9 @@ ScriptPromise Cache::putImpl(ScriptState* scriptState, Request* request, Respons
         request->setBodyUsed();
     if (response->hasBody())
         response->setBodyUsed();
-
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     if (response->internalBuffer()) {
@@ -390,6 +400,9 @@ ScriptPromise Cache::putImpl(ScriptState* scriptState, Request* request, Respons
 
 ScriptPromise Cache::keysImpl(ScriptState* scriptState)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     m_webCache->dispatchKeys(new CacheWithRequestsCallbacks(resolver), 0, WebServiceWorkerCache::QueryParams());
@@ -400,7 +413,9 @@ ScriptPromise Cache::keysImpl(ScriptState* scriptState, const Request* request, 
 {
     WebServiceWorkerRequest webRequest;
     request->populateWebServiceWorkerRequest(webRequest);
-
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
     m_webCache->dispatchKeys(new CacheWithRequestsCallbacks(resolver), 0, toWebQueryParams(options));
