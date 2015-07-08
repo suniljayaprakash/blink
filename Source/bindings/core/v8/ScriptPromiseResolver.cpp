@@ -10,7 +10,7 @@
 namespace blink {
 
 ScriptPromiseResolver::ScriptPromiseResolver(ScriptState* scriptState)
-    : ActiveDOMObject(scriptState->executionContext())
+    : ActiveDOMObject(scriptState->executionContext() ? scriptState->executionContext() : ScriptPromise().m_scriptState->executionContext())
     , m_state(Pending)
     , m_scriptState(scriptState)
     , m_mode(Default)
@@ -20,7 +20,8 @@ ScriptPromiseResolver::ScriptPromiseResolver(ScriptState* scriptState)
     , m_isPromiseCalled(false)
 #endif
 {
-    if (executionContext()->activeDOMObjectsAreStopped()) {
+    ExecutionContext *context = scriptState->executionContext() ? scriptState->executionContext() : ScriptPromise().m_scriptState->executionContext();
+    if (context->activeDOMObjectsAreStopped()) {
         m_state = ResolvedOrRejected;
         m_resolver.clear();
     }
