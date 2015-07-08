@@ -179,6 +179,9 @@ CacheStorage* CacheStorage::create(WebServiceWorkerCacheStorage* webCacheStorage
 
 ScriptPromise CacheStorage::open(ScriptState* scriptState, const String& cacheName)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
 
@@ -198,6 +201,9 @@ ScriptPromise CacheStorage::open(ScriptState* scriptState, const String& cacheNa
 
 ScriptPromise CacheStorage::has(ScriptState* scriptState, const String& cacheName)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
 
@@ -216,6 +222,9 @@ ScriptPromise CacheStorage::has(ScriptState* scriptState, const String& cacheNam
 
 ScriptPromise CacheStorage::deleteFunction(ScriptState* scriptState, const String& cacheName)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
 
@@ -229,6 +238,9 @@ ScriptPromise CacheStorage::deleteFunction(ScriptState* scriptState, const Strin
 
 ScriptPromise CacheStorage::keys(ScriptState* scriptState)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     const ScriptPromise promise = resolver->promise();
 
@@ -254,6 +266,9 @@ ScriptPromise CacheStorage::match(ScriptState* scriptState, const RequestInfo& r
 
 ScriptPromise CacheStorage::matchImpl(ScriptState* scriptState, const Request* request, const CacheQueryOptions& options)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     WebServiceWorkerRequest webRequest;
     request->populateWebServiceWorkerRequest(webRequest);
 
