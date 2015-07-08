@@ -117,6 +117,9 @@ static bool checkBoilerplate(PassRefPtrWillBeRawPtr<ScriptPromiseResolver> resol
 
 ScriptPromise CredentialsContainer::request(ScriptState* scriptState, const Dictionary&)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
     if (!checkBoilerplate(resolver))
@@ -129,6 +132,9 @@ ScriptPromise CredentialsContainer::request(ScriptState* scriptState, const Dict
 
 ScriptPromise CredentialsContainer::notifySignedIn(ScriptState* scriptState, Credential* credential)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
     if (!checkBoilerplate(resolver))
@@ -140,6 +146,9 @@ ScriptPromise CredentialsContainer::notifySignedIn(ScriptState* scriptState, Cre
 
 ScriptPromise CredentialsContainer::notifyFailedSignIn(ScriptState* scriptState, Credential* credential)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
     if (!checkBoilerplate(resolver))
@@ -151,6 +160,9 @@ ScriptPromise CredentialsContainer::notifyFailedSignIn(ScriptState* scriptState,
 
 ScriptPromise CredentialsContainer::notifySignedOut(ScriptState* scriptState)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
     if (!checkBoilerplate(resolver))
