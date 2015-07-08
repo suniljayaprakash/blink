@@ -66,9 +66,12 @@ String ServiceWorkerWindowClient::frameType() const
 
 ScriptPromise ServiceWorkerWindowClient::focus(ScriptState* scriptState)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
-
+    
     if (!scriptState->executionContext()->isWindowFocusAllowed()) {
         resolver->resolve(false);
         return promise;
