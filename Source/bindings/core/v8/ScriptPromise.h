@@ -130,9 +130,8 @@ public:
     private:
         ScriptValue m_resolver;
     };
-
-private:
     RefPtr<ScriptState> m_scriptState;
+private:
     ScriptValue m_promise;
 };
 
