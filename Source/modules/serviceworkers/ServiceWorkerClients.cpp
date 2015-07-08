@@ -54,6 +54,9 @@ ServiceWorkerClients::ServiceWorkerClients()
 
 ScriptPromise ServiceWorkerClients::getAll(ScriptState* scriptState, const ClientQueryOptions& options)
 {
+    if(!scriptState->executionContext()) {
+        return ScriptPromise();
+    }
     RefPtrWillBeRawPtr<ScriptPromiseResolver> resolver = ScriptPromiseResolver::create(scriptState);
     ScriptPromise promise = resolver->promise();
 
