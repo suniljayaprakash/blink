@@ -20,7 +20,10 @@ ScriptPromiseResolver::ScriptPromiseResolver(ScriptState* scriptState)
     , m_isPromiseCalled(false)
 #endif
 {
-    ExecutionContext *context = scriptState->executionContext() ? scriptState->executionContext() : ScriptPromise().m_scriptState->executionContext();
+    ExecutionContext *context = executionContext();
+    if(!context) {
+        context = ScriptPromise().m_scriptState->executionContext();
+    }
     if (context->activeDOMObjectsAreStopped()) {
         m_state = ResolvedOrRejected;
         m_resolver.clear();
